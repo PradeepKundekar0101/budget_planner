@@ -10,8 +10,19 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
   const { login } = useAuth();
   const router = useRouter();
+
+  const copyToClipboard = async (text: string, field: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedField(field);
+      setTimeout(() => setCopiedField(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,10 +30,10 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       await login(email, password);
-      router.push("/calculator");
+      // Force a page reload to ensure middleware picks up the new cookie
+      window.location.href = "/calculator";
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
-    } finally {
       setIsLoading(false);
     }
   };
@@ -59,8 +70,57 @@ export default function LoginPage() {
               )}
 
               <div className="rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4 text-sm text-indigo-900">
-                Use <span className="font-semibold">pradeep@gmail.com</span> and{" "}
-                <span className="font-semibold">test@123</span> to sign in.
+                <div className="flex flex-col gap-2">
+                  <p className="text-center">Test credentials:</p>
+                  <div className="flex items-center justify-between gap-2">
+                    <span>Email: <span className="font-semibold">pradeep@gmail.com</span></span>
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard('pradeep@gmail.com', 'email')}
+                      className="flex items-center gap-1 rounded-lg bg-indigo-100 px-2 py-1 text-xs font-medium text-indigo-700 transition-colors hover:bg-indigo-200"
+                    >
+                      {copiedField === 'email' ? (
+                        <>
+                          <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                          </svg>
+                          Copied
+                        </>
+                      ) : (
+                        <>
+                          <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                          </svg>
+                          Copy
+                        </>
+                      )}
+                    </button>
+                  </div>
+                  <div className="flex items-center justify-between gap-2">
+                    <span>Password: <span className="font-semibold">test@123</span></span>
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard('test@123', 'password')}
+                      className="flex items-center gap-1 rounded-lg bg-indigo-100 px-2 py-1 text-xs font-medium text-indigo-700 transition-colors hover:bg-indigo-200"
+                    >
+                      {copiedField === 'password' ? (
+                        <>
+                          <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                          </svg>
+                          Copied
+                        </>
+                      ) : (
+                        <>
+                          <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                          </svg>
+                          Copy
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <div className="space-y-5">

@@ -41,6 +41,18 @@ export default function CalculatorPage() {
     setValues((prev) => ({ ...prev, [key]: value }));
   };
 
+  const fillSampleData = () => {
+    setValues({
+      currentAge: "30",
+      retirementAge: "65",
+      lifeExpectancy: "85",
+      currentSavings: "150,000",
+      monthlySpending: "4,500",
+      expectedReturn: "7",
+      inflationRate: "3",
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
@@ -107,6 +119,18 @@ export default function CalculatorPage() {
           </div>
 
           <div className="rounded-3xl border border-slate-200/60 bg-white p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] sm:p-10">
+            <div className="mb-6 flex justify-end">
+              <button
+                type="button"
+                onClick={fillSampleData}
+                className="flex items-center gap-2 rounded-xl bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-700 transition-colors hover:bg-indigo-100"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Fill Sample Data
+              </button>
+            </div>
             <form onSubmit={handleSubmit} className="space-y-8">
               {error && (
                 <div className="flex items-center gap-3 rounded-2xl border border-rose-100 bg-rose-50/80 p-4 text-sm font-medium text-rose-600">
