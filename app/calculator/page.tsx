@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/AuthProvider";
 
 const fields = [
   { key: "currentAge", label: "Current Age", placeholder: "30", min: 18, max: 80, suffix: "years" },
@@ -17,6 +18,7 @@ type FieldKey = (typeof fields)[number]["key"];
 
 export default function CalculatorPage() {
   const router = useRouter();
+  const { user, loading } = useAuth();
   const [values, setValues] = useState<Record<FieldKey, string>>({
     currentAge: "",
     retirementAge: "",
@@ -29,12 +31,19 @@ export default function CalculatorPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/login");
+    }
+  }, [loading, user, router]);
+
   const handleChange = (key: FieldKey, value: string) => {
     setValues((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user) return;
     setError("");
     setIsLoading(true);
 
@@ -64,6 +73,14 @@ export default function CalculatorPage() {
       setIsLoading(false);
     }
   };
+
+  if (loading || !user) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#fafbfc]">
+        <p className="text-sm font-medium text-slate-500">Redirecting to login...</p>
+      </div>
+    );
+  }
 
   return (
     <>

@@ -58,6 +58,11 @@ export default function LoginPage() {
                 </div>
               )}
 
+              <div className="rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4 text-sm text-indigo-900">
+                Use <span className="font-semibold">pradeep@gmail.com</span> and{" "}
+                <span className="font-semibold">test@123</span> to sign in.
+              </div>
+
               <div className="space-y-5">
                 <div>
                   <label htmlFor="email" className="mb-2 block text-sm font-normal text-slate-700">

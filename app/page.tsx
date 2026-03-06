@@ -52,7 +52,7 @@ export default function Home() {
             {/* CTAs */}
             <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-5">
               <Link
-                href="/register"
+                href="/login"
                 className="group relative flex w-full items-center justify-center gap-2.5 rounded-2xl bg-slate-900 px-8 py-4 text-base font-medium text-white shadow-xl shadow-slate-900/20 transition-all hover:-translate-y-0.5 hover:bg-slate-800 hover:shadow-2xl hover:shadow-slate-900/30 sm:w-auto"
               >
                 <span>Start Planning for Free</span>

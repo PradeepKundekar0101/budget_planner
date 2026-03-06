@@ -54,7 +54,7 @@ export default function Navbar() {
                 Sign In
               </Link>
               <Link
-                href="/register"
+                href="/login"
                 className="rounded-lg bg-gradient-to-r from-teal-600 to-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md"
               >
                 Get Started
